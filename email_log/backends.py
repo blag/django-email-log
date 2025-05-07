@@ -10,7 +10,6 @@ from .models import Attachment, Email
 
 
 class EmailBackend(BaseEmailBackend):
-
     """Wrapper email backend that records all emails in a database model"""
 
     def __init__(self, **kwargs):
@@ -23,6 +22,7 @@ class EmailBackend(BaseEmailBackend):
             recipients = "; ".join(message.to)
             cc_recipients = "; ".join(message.cc) if message.cc else ""
             bcc_recipients = "; ".join(message.bcc) if message.bcc else ""
+            reply_to = "; ".join(message.reply_to) if message.reply_to else ""
             email = None
             html_message = self._get_html_message(message)
             try:
@@ -31,6 +31,8 @@ class EmailBackend(BaseEmailBackend):
                     recipients=recipients,
                     cc_recipients=cc_recipients,
                     bcc_recipients=bcc_recipients,
+                    reply_to=reply_to,
+                    extra_headers=message.headers,
                     subject=message.subject,
                     body=message.body,
                     html_message=html_message,
