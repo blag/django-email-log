@@ -46,6 +46,7 @@ class EmailBackend(BaseEmailBackend):
                 self._log_attachments(email, message)
 
             message.connection = self.connection
+            message.database_email = email
             num_sent += message.send()
             if num_sent > 0 and email:
                 email.ok = True
