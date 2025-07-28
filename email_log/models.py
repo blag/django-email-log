@@ -15,7 +15,7 @@ class Email(models.Model):
     cc_recipients = models.TextField(_("cc recipients"), blank=True)
     bcc_recipients = models.TextField(_("bcc recipients"), blank=True)
     reply_to = models.TextField(_("reply to"), blank=True, default="")
-    extra_headers = models.JSONField(encoder=DjangoJSONEncoder, default=None)
+    extra_headers = models.JSONField(encoder=DjangoJSONEncoder, default=dict)
     subject = models.TextField(_("subject"))
     body = models.TextField(_("body"))
     ok = models.BooleanField(_("ok"), default=False, db_index=True)
@@ -66,3 +66,24 @@ class Attachment(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Log(models.Model):
+    email = models.ForeignKey(Email, verbose_name=_("email"), on_delete=models.CASCADE)
+    esp = models.CharField(verbose_name=_("ESP"))
+    metadata = models.JSONField()
+    type = models.CharField()
+    timestamp = models.DateTimeField()
+    event_id = models.CharField()
+    reject_reason = models.CharField(null=True)
+    mta_response = models.CharField(verbose_name=_("MTA Response"), null=True)
+    tags = models.JSONField()
+    user_agent = models.CharField(null=True)
+    click_url = models.CharField(verbose_name="Click URL", null=True)
+    raw = models.JSONField()
+
+    class Meta:
+        ordering = ["email", "timestamp"]
+
+    def __str__(self):
+        return self.type
