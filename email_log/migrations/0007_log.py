@@ -36,11 +36,11 @@ class Migration(migrations.Migration):
                 ("type", models.CharField()),
                 ("timestamp", models.DateTimeField()),
                 ("event_id", models.CharField()),
-                ("reject_reason", models.CharField(null=True)),
                 (
                     "mta_response",
                     models.CharField(null=True, verbose_name="MTA Response"),
                 ),
+                ("reject_reason", models.CharField(null=True)),
                 ("tags", models.JSONField()),
                 ("user_agent", models.CharField(null=True)),
                 ("click_url", models.CharField(null=True, verbose_name="Click URL")),

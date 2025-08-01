@@ -36,16 +36,8 @@ class LogInline(admin.StackedInline):
                 "fields": (
                     "esp",
                     "event_id",
-                    "reject_reason",
                     "mta_response",
-                ),
-                "classes": ["collapse"],
-            },
-        ),
-        (
-            _("Other"),
-            {
-                "fields": (
+                    "reject_reason",
                     "user_agent",
                     "click_url",
                     "raw",

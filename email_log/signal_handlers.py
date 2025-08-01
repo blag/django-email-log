@@ -1,6 +1,5 @@
 from email.mime.base import MIMEBase
 from typing import Any, Type
-from uuid import UUID
 
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -20,9 +19,11 @@ def handle_tracking_event(
     esp_name: str,
     **kwargs: Any,
 ) -> None:
-    if email := Email.objects.filter(
-        extra_headers__anymail_id=UUID(event.message_id)
-    ).first():
+    if (
+        email := Email.objects.filter(extra_headers__anymail_id=event.message_id)
+        .only("pk")
+        .first()
+    ):
         EmailLog.objects.create(
             email=email,
             type=event.event_type,
@@ -74,7 +75,7 @@ def log_successful_email(
             extra_headers=(
                 message_headers
                 | message.extra_headers  # noqa: ignore W503
-                | {"anymail_id": UUID(status.message_id)}  # noqa: ignore W503
+                | {"anymail_id": status.message_id}  # noqa: ignore W503
             ),
             subject=message.subject,
             body=message.body,
