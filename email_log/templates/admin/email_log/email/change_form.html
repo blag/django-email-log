@@ -1,0 +1,24 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+.ar-4-3 {
+  aspect-ratio: 4/3;
+}
+.b-0 {
+  border-width: 0;
+}
+.w-100 {
+  width: 100%;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("iframe").forEach((el) => {
+    el.parentElement.classList.add("w-100");
+  });
+});
+</script>
+{% endblock extrahead %}

@@ -167,7 +167,7 @@ class EmailAdmin(admin.ModelAdmin):
     def html_message_preview(self, obj):
         if obj.html_message:
             return format_html(
-                '<iframe style="border: 1px solid #e8e8e8; max-width: 800px; max-height: 600px" srcdoc="{}"></iframe>',  # noqa: ignore E501
+                '<iframe class="ar-4-3 b-0 w-100" srcdoc="{}"></iframe>',
                 obj.html_message,
             )
         else:
